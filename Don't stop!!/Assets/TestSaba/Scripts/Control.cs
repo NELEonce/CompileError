@@ -25,7 +25,8 @@ public class Control : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        input.TestPlayer.wasd. += _=> Fire();
+        input.TestPlayer.wasd.performed+= _=> Fire();
+        input.TestPlayer.wasd.performed += _ => StopFire();
 
     }
 
@@ -37,12 +38,12 @@ public class Control : MonoBehaviour
 
     private void Fire()
     {
-        Debug.Log("fire");
+        Debug.Log("wasd");
     }
 
     private void StopFire()
     {
 
-        Debug.Log("stop");
+        Debug.Log("wasd");
     }
 } 
