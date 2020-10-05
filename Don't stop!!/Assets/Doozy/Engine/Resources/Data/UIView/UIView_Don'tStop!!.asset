@@ -10,14 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f42f06ff6cc543ea942180e019f0fc8d, type: 3}
-  m_Name: UICanvas_General
+  m_Name: UIView_Don'tStop!!
   m_EditorClassIdentifier: 
-  CategoryName: General
-  DatabaseType: 1
+  CategoryName: Don't Stop!!
+  DatabaseType: 2
   Names:
-  - MasterCanvas
-  - Don't stop!!-Title-
-  - Don't stop!!-Select-
-  - Don't stop!!-Main
-  - Don't stop!!-Result-
-  - Don't stop!!-Over-
+  - Title
+  - Select
+  - Tutorial
