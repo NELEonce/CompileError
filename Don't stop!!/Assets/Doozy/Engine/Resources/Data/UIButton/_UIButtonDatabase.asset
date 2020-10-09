@@ -15,10 +15,10 @@ MonoBehaviour:
   DatabaseType: 0
   CategoryNames:
   - Custom
+  - Don't stop!!
   - Example
   - General
-  - Don't stop!!
   Categories:
+  - {fileID: 11400000, guid: 45108a00df5149c47aab044a10460728, type: 2}
   - {fileID: 11400000, guid: 40f9e81ff80114a47a3721228ba749ed, type: 2}
   - {fileID: 11400000, guid: aed395f2ebf216d458d4f78ed2cd58bc, type: 2}
-  - {fileID: 11400000, guid: 45108a00df5149c47aab044a10460728, type: 2}

@@ -18,7 +18,7 @@ MonoBehaviour:
     m_variantName: Default
     SerializedGuid: ee712202a113474d8030534dc6d17e95
     Colors:
-    - m_color: {r: 1, g: 1, b: 1, a: 1}
+    - m_color: {r: 1, g: 0.033018887, b: 0.033018887, a: 1}
       SerializedGuid: cfee89eec62f474fa2af139089fd9f8d
     - m_color: {r: 1, g: 1, b: 1, a: 1}
       SerializedGuid: d8eb9b716f5e154ba3f561e018729226
@@ -57,7 +57,7 @@ MonoBehaviour:
   - m_variantName: Default
     SerializedGuid: ee712202a113474d8030534dc6d17e95
     Colors:
-    - m_color: {r: 1, g: 1, b: 1, a: 1}
+    - m_color: {r: 1, g: 0.033018887, b: 0.033018887, a: 1}
       SerializedGuid: cfee89eec62f474fa2af139089fd9f8d
     - m_color: {r: 1, g: 1, b: 1, a: 1}
       SerializedGuid: d8eb9b716f5e154ba3f561e018729226

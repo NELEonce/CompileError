@@ -15,5 +15,15 @@ MonoBehaviour:
   CategoryName: Don't stop!!
   DatabaseType: 0
   Names:
-  - nextSelectScreen
-  - back
+  - backSetting
+  - Play
+  - Practice
+  - Quit
+  - Setting
+  - Stage1
+  - Stage2
+  - Stage3
+  - Start
+  - Title
+  - UI
+  - test
