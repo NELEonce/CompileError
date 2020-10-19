@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TestNele/scene/Select.unity
     guid: dc9e55a62c4ccf54da6f06d9fa5636ec
+  - enabled: 1
+    path: Assets/TestNele/scene/Practice.unity
+    guid: ed5e9ab50813f3e48912a6d8dfffc0ce
   m_configObjects: {}
