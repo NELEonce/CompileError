@@ -79,6 +79,11 @@ public class FPCharacterController : MonoBehaviour
     [Tooltip("ｼﾞｬﾝﾌﾟするときに適用する力")]
     private float jumpForce = 9f;
 
+    [SerializeField]
+    [MinMaxRange(0, Mathf.Infinity)]
+    [Tooltip("Physics.gravityにこれをかけて重力にする")]
+    private float gravityMultiplier = 1f;
+
     #endregion
 
     #region CAMERA CONTROLLER
@@ -152,6 +157,11 @@ public class FPCharacterController : MonoBehaviour
     /// しゃがんでいるかどうか
     /// </summary>
     public bool IsCrouched { get; private set; }
+
+    /// <summary>
+    /// ｴｲﾑしているかどうか
+    /// </summary>
+    public bool isAiming { get; set; }
 
     /// <summary>
     /// ｷｬﾗｸﾀｰを動かすために使用される現在の力
@@ -249,10 +259,12 @@ public class FPCharacterController : MonoBehaviour
         // ｺｰﾙﾊﾞｯｸの登録
 
         // まだ割り当てなし
-        controller.TestPlayer.South.started += _ => South();
-        controller.TestPlayer.North.started += _ => North();
-        controller.TestPlayer.East.started += _ => East();
-        controller.TestPlayer.West.started += _ => West();
+        controller.TestPlayer.Jump.started += _ => South();
+        controller.TestPlayer.WpChange.started += _ => North();
+        controller.TestPlayer.Crouch.started += _ => East();
+        controller.TestPlayer.Reload.started += _ => West();
+        controller.TestPlayer.Shoot.started += _ => Shoot();
+        controller.TestPlayer.Aim.started += _ => Aim();
     }
 
     private void OnEnable()
@@ -274,6 +286,8 @@ public class FPCharacterController : MonoBehaviour
     {
         capsule = GetComponent<CapsuleCollider>();
         rigidbody = GetComponent<Rigidbody>();
+        cameraController = new CameraController();
+        cameraController.Init(transform, FPSCamera.transform);
 
         // ｽﾗｲﾃﾞｨﾝｸﾞ
         sliding = false;
@@ -289,7 +303,7 @@ public class FPCharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         // 移動軸
-        Vector2 input = GetInput();
+        Vector2 input = GetMoveInput();
 
         if (climbing)
         {
@@ -372,10 +386,11 @@ public class FPCharacterController : MonoBehaviour
         else
         {
             rigidbody.drag = 0f;
+            var gravity = Physics.gravity * gravityMultiplier;
 
-            if (rigidbody.velocity.magnitude < Mathf.Abs(Physics.gravity.y * characterWeight / 2))
+            if (rigidbody.velocity.magnitude < Mathf.Abs(gravity.y * characterWeight / 2))
             {
-                rigidbody.AddForce(Physics.gravity, ForceMode.Impulse);
+                rigidbody.AddForce(gravity, ForceMode.Impulse);
             }
 
             if (previouslyGrounded && !jumping)
@@ -403,6 +418,9 @@ public class FPCharacterController : MonoBehaviour
 
     private void Update()
     {
+        // ｶﾒﾗの回転を更新
+        cameraController.UpdateRotation(isAiming, GetViewInput());
+
         // 操作可能か
         if (controllable) HandleInput();
 
@@ -417,23 +435,23 @@ public class FPCharacterController : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
-    {
-        
-    }
-
     /// <summary>
     /// 入力を処理
     /// </summary>
     private void HandleInput()
     {
         // 接地しているか、ｽﾗｲﾃﾞｨﾝｸﾞしていないか、登ってないか、
-        if (grounded && !sliding && climbing )
+        if (grounded && !sliding && !climbing)
         {
-
+            
         }
-
+        
         CheckRunning();
+    }
+
+    private void LateUpdate()
+    {
+        
     }
 
     /// <summary>
@@ -509,7 +527,7 @@ public class FPCharacterController : MonoBehaviour
     /// </summary>
     private void CheckRunning()
     {
-        var input = GetInput();
+        var input = GetMoveInput();
         // 入力があれば
         if (Mathf.Abs(input.x) - Mathf.Epsilon > 0 || Mathf.Abs(input.y) - Mathf.Epsilon > 0)
         {
@@ -517,7 +535,7 @@ public class FPCharacterController : MonoBehaviour
         }
 
 
-        //if (!LowerBodyDamaged && GetInput().y > 0 && !IsAiming && !m_Climbing)
+        //if (!LowerBodyDamaged && GetMoveInput().y > 0 && !IsAiming && !m_Climbing)
         //{
         //    if (GameplayManager.Instance.SprintStyle == ActionMode.Hold)
         //    {
@@ -537,30 +555,58 @@ public class FPCharacterController : MonoBehaviour
         //}
     }
 
-    // ｺﾝﾄﾛｰﾗｰの入力値を返す
-    private Vector2 GetInput()
+    /// <summary>
+    /// 左ｽﾃｨｯｸ、WASDの入力値を返す
+    /// </summary>
+    private Vector2 GetMoveInput()
     {
         if (!controllable) return Vector2.zero;
         return controller.TestPlayer.Move.ReadValue<Vector2>();
     }
 
-    private void South()
+    /// <summary>
+    /// 右ｽﾃｨｯｸ、ﾏｳｽの入力値を返す
+    /// </summary>
+    private Vector2 GetViewInput()
     {
-        Debug.Log("南");
+        return controller.TestPlayer.Direction.ReadValue<Vector2>();
     }
 
-    private void North()
-    {
-        Debug.Log("北");
-    }
-
+    // 東,B
     private void East()
     {
-        Debug.Log("東");
+        Debug.Log("しゃがみ、ｽﾗｲﾃﾞｨﾝｸﾞ");
     }
 
+    // 西,X
     private void West()
     {
-        Debug.Log("西");
+        Debug.Log("ﾘﾛｰﾄﾞ");
+    }
+
+    // 南,A
+    private void South()
+    {
+        jump = true;
+        Debug.Log("ｼﾞｬﾝﾌﾟ、決定");
+    }
+
+    // 北,Y
+    private void North()
+    {
+        Debug.Log("武器ﾁｪﾝ");
+    }
+
+    // RT
+    private void Shoot()
+    {
+        Debug.Log("弾を撃つ");
+    }
+
+    // LT
+    private void Aim()
+    {
+        FPSCamera.fieldOfView = 40;
+        Debug.Log("狙う(ちょいｽﾞｰﾑ)");
     }
 }
