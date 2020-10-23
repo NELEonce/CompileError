@@ -27,7 +27,15 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""East"",
+                    ""name"": ""Direction"",
+                    ""type"": ""Value"",
+                    ""id"": ""fe43cf06-fe95-4b03-8f77-b6b15f130967"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""4b88180b-3470-4fa5-acf1-fac478b4dc84"",
                     ""expectedControlType"": ""Button"",
@@ -35,7 +43,7 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""North"",
+                    ""name"": ""WpChange"",
                     ""type"": ""Button"",
                     ""id"": ""d8296984-ace3-4697-a1dc-3e4e7e2a6d3f"",
                     ""expectedControlType"": ""Button"",
@@ -43,7 +51,7 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""South"",
+                    ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""64fcfa2d-364c-4b3b-b8e2-1e565dabdb75"",
                     ""expectedControlType"": ""Button"",
@@ -51,9 +59,25 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""West"",
+                    ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""696f2d51-3cc0-4f76-98f7-dfcd4d027dce"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""b8b05440-eddb-4a07-835a-3f68f0ecf441"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5550bbd-ab3b-406f-bfe5-f45003961f81"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -132,8 +156,19 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bfa2bfe9-71e5-40de-b220-ca86cf396f8f"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""East"",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -143,8 +178,8 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""North"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""WpChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -154,8 +189,19 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f3d27a4-cf4b-4fe4-b221-108de1200859"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""South"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -165,8 +211,85 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""West"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86a7064a-07dd-40bd-8e3e-96fb4ffe3cab"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ee58c15-f8d2-4aa5-a625-5fa34e43052c"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df13aca1-0faa-4669-b187-0dba7a86a0d6"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eebcde24-4d40-48d7-9a4f-ba3301507551"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e6d382b-cc5e-4b72-9fda-9329b1677651"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""69772b5b-8c8f-4ec9-8d76-97b94e168002"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": ""ScaleVector2(x=0.1,y=0.1)"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Direction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7851f7ce-7996-4f80-b0c9-856157fec28a"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Direction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -222,10 +345,13 @@ public class @Controller1 : IInputActionCollection, IDisposable
         // TestPlayer
         m_TestPlayer = asset.FindActionMap("TestPlayer", throwIfNotFound: true);
         m_TestPlayer_Move = m_TestPlayer.FindAction("Move", throwIfNotFound: true);
-        m_TestPlayer_East = m_TestPlayer.FindAction("East", throwIfNotFound: true);
-        m_TestPlayer_North = m_TestPlayer.FindAction("North", throwIfNotFound: true);
-        m_TestPlayer_South = m_TestPlayer.FindAction("South", throwIfNotFound: true);
-        m_TestPlayer_West = m_TestPlayer.FindAction("West", throwIfNotFound: true);
+        m_TestPlayer_Direction = m_TestPlayer.FindAction("Direction", throwIfNotFound: true);
+        m_TestPlayer_Crouch = m_TestPlayer.FindAction("Crouch", throwIfNotFound: true);
+        m_TestPlayer_WpChange = m_TestPlayer.FindAction("WpChange", throwIfNotFound: true);
+        m_TestPlayer_Jump = m_TestPlayer.FindAction("Jump", throwIfNotFound: true);
+        m_TestPlayer_Reload = m_TestPlayer.FindAction("Reload", throwIfNotFound: true);
+        m_TestPlayer_Shoot = m_TestPlayer.FindAction("Shoot", throwIfNotFound: true);
+        m_TestPlayer_Aim = m_TestPlayer.FindAction("Aim", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -276,19 +402,25 @@ public class @Controller1 : IInputActionCollection, IDisposable
     private readonly InputActionMap m_TestPlayer;
     private ITestPlayerActions m_TestPlayerActionsCallbackInterface;
     private readonly InputAction m_TestPlayer_Move;
-    private readonly InputAction m_TestPlayer_East;
-    private readonly InputAction m_TestPlayer_North;
-    private readonly InputAction m_TestPlayer_South;
-    private readonly InputAction m_TestPlayer_West;
+    private readonly InputAction m_TestPlayer_Direction;
+    private readonly InputAction m_TestPlayer_Crouch;
+    private readonly InputAction m_TestPlayer_WpChange;
+    private readonly InputAction m_TestPlayer_Jump;
+    private readonly InputAction m_TestPlayer_Reload;
+    private readonly InputAction m_TestPlayer_Shoot;
+    private readonly InputAction m_TestPlayer_Aim;
     public struct TestPlayerActions
     {
         private @Controller1 m_Wrapper;
         public TestPlayerActions(@Controller1 wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_TestPlayer_Move;
-        public InputAction @East => m_Wrapper.m_TestPlayer_East;
-        public InputAction @North => m_Wrapper.m_TestPlayer_North;
-        public InputAction @South => m_Wrapper.m_TestPlayer_South;
-        public InputAction @West => m_Wrapper.m_TestPlayer_West;
+        public InputAction @Direction => m_Wrapper.m_TestPlayer_Direction;
+        public InputAction @Crouch => m_Wrapper.m_TestPlayer_Crouch;
+        public InputAction @WpChange => m_Wrapper.m_TestPlayer_WpChange;
+        public InputAction @Jump => m_Wrapper.m_TestPlayer_Jump;
+        public InputAction @Reload => m_Wrapper.m_TestPlayer_Reload;
+        public InputAction @Shoot => m_Wrapper.m_TestPlayer_Shoot;
+        public InputAction @Aim => m_Wrapper.m_TestPlayer_Aim;
         public InputActionMap Get() { return m_Wrapper.m_TestPlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,18 +433,27 @@ public class @Controller1 : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnMove;
-                @East.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnEast;
-                @East.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnEast;
-                @East.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnEast;
-                @North.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnNorth;
-                @North.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnNorth;
-                @North.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnNorth;
-                @South.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnSouth;
-                @South.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnSouth;
-                @South.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnSouth;
-                @West.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWest;
-                @West.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWest;
-                @West.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWest;
+                @Direction.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnDirection;
+                @Direction.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnDirection;
+                @Direction.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnDirection;
+                @Crouch.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnCrouch;
+                @WpChange.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWpChange;
+                @WpChange.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWpChange;
+                @WpChange.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWpChange;
+                @Jump.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnJump;
+                @Reload.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnReload;
+                @Shoot.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnShoot;
+                @Aim.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnAim;
             }
             m_Wrapper.m_TestPlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -320,18 +461,27 @@ public class @Controller1 : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @East.started += instance.OnEast;
-                @East.performed += instance.OnEast;
-                @East.canceled += instance.OnEast;
-                @North.started += instance.OnNorth;
-                @North.performed += instance.OnNorth;
-                @North.canceled += instance.OnNorth;
-                @South.started += instance.OnSouth;
-                @South.performed += instance.OnSouth;
-                @South.canceled += instance.OnSouth;
-                @West.started += instance.OnWest;
-                @West.performed += instance.OnWest;
-                @West.canceled += instance.OnWest;
+                @Direction.started += instance.OnDirection;
+                @Direction.performed += instance.OnDirection;
+                @Direction.canceled += instance.OnDirection;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
+                @WpChange.started += instance.OnWpChange;
+                @WpChange.performed += instance.OnWpChange;
+                @WpChange.canceled += instance.OnWpChange;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
             }
         }
     }
@@ -366,9 +516,12 @@ public class @Controller1 : IInputActionCollection, IDisposable
     public interface ITestPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnEast(InputAction.CallbackContext context);
-        void OnNorth(InputAction.CallbackContext context);
-        void OnSouth(InputAction.CallbackContext context);
-        void OnWest(InputAction.CallbackContext context);
+        void OnDirection(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
+        void OnWpChange(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
     }
 }
