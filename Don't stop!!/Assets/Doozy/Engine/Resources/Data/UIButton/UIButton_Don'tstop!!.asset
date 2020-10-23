@@ -16,15 +16,19 @@ MonoBehaviour:
   DatabaseType: 0
   Names:
   - backSetting
+  - BackTitle
   - Play
   - Practice
   - Quit
+  - Secret
   - Setting
   - Stage1
+  - Stage1Start
   - Stage2
+  - Stage2Start
   - Stage3
+  - Stage3Start
   - Start
+  - test
   - Title
   - UI
-  - test
-  - Secret

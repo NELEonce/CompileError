@@ -15,10 +15,11 @@ MonoBehaviour:
   CategoryName: Don't Stop!!
   DatabaseType: 2
   Names:
-  - Title
+  - Practice
+  - Secret
   - Select
   - Setting
   - Stage1
   - Stage2
   - Stage3
-  - Practice
+  - Title
