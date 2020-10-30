@@ -1674,7 +1674,7 @@ MonoBehaviour:
   GetSceneBy: 0
   LoadSceneMode: 0
   AllowSceneActivation: 1
-  SceneActivationDelay: 0.5
+  SceneActivationDelay: 0.9
   SceneBuildIndex: 1
   SceneName: Select
 --- !u!114 &1038099793065322433
