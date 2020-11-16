@@ -481,7 +481,7 @@ public class FPCharacterController : MonoBehaviour
         Vector3 footPos = new Vector3(position.x, position.y - (characterHeight * 0.5f - stepOffset), position.z);
         if (Physics.Raycast(footPos, transform.TransformDirection(Vector3.forward), characterHeight * 2, Physics.AllLayers, QueryTriggerInteraction.Ignore))
         {
-            return Vector3.Angle(normal, Vector3.up);
+           return Vector3.Angle(normal, Vector3.up);
         }
 
         return -Vector3.Angle(normal, Vector3.up);

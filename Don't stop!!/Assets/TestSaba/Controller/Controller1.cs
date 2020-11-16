@@ -294,6 +294,33 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Option"",
+            ""id"": ""4ee6ace3-2217-46da-8cf9-041d28a9f2a0"",
+            ""actions"": [
+                {
+                    ""name"": ""Open"",
+                    ""type"": ""Button"",
+                    ""id"": ""0330cea3-849f-459a-9fa9-aff71d37cec4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5db14484-7ccb-466b-8e6a-ab7018bec8cb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Open"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -352,6 +379,9 @@ public class @Controller1 : IInputActionCollection, IDisposable
         m_TestPlayer_Reload = m_TestPlayer.FindAction("Reload", throwIfNotFound: true);
         m_TestPlayer_Shoot = m_TestPlayer.FindAction("Shoot", throwIfNotFound: true);
         m_TestPlayer_Aim = m_TestPlayer.FindAction("Aim", throwIfNotFound: true);
+        // Option
+        m_Option = asset.FindActionMap("Option", throwIfNotFound: true);
+        m_Option_Open = m_Option.FindAction("Open", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -486,6 +516,39 @@ public class @Controller1 : IInputActionCollection, IDisposable
         }
     }
     public TestPlayerActions @TestPlayer => new TestPlayerActions(this);
+
+    // Option
+    private readonly InputActionMap m_Option;
+    private IOptionActions m_OptionActionsCallbackInterface;
+    private readonly InputAction m_Option_Open;
+    public struct OptionActions
+    {
+        private @Controller1 m_Wrapper;
+        public OptionActions(@Controller1 wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Open => m_Wrapper.m_Option_Open;
+        public InputActionMap Get() { return m_Wrapper.m_Option; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(OptionActions set) { return set.Get(); }
+        public void SetCallbacks(IOptionActions instance)
+        {
+            if (m_Wrapper.m_OptionActionsCallbackInterface != null)
+            {
+                @Open.started -= m_Wrapper.m_OptionActionsCallbackInterface.OnOpen;
+                @Open.performed -= m_Wrapper.m_OptionActionsCallbackInterface.OnOpen;
+                @Open.canceled -= m_Wrapper.m_OptionActionsCallbackInterface.OnOpen;
+            }
+            m_Wrapper.m_OptionActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Open.started += instance.OnOpen;
+                @Open.performed += instance.OnOpen;
+                @Open.canceled += instance.OnOpen;
+            }
+        }
+    }
+    public OptionActions @Option => new OptionActions(this);
     private int m_NewcontrolschemeSchemeIndex = -1;
     public InputControlScheme NewcontrolschemeScheme
     {
@@ -523,5 +586,9 @@ public class @Controller1 : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+    }
+    public interface IOptionActions
+    {
+        void OnOpen(InputAction.CallbackContext context);
     }
 }
