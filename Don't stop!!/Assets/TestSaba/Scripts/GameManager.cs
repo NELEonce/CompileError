@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
 
         //ゲームが始まったら導蟲を非表示
         sirubeMusi.SetActive(false);
-
     }
 
 

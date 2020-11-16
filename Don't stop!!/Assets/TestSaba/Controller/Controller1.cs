@@ -319,20 +319,12 @@ public class @Controller1 : IInputActionCollection, IDisposable
         },
         {
             ""name"": ""Option"",
-<<<<<<< HEAD
-            ""id"": ""4ee6ace3-2217-46da-8cf9-041d28a9f2a0"",
-=======
             ""id"": ""ad279b73-ba85-4df5-97d1-091c656d6eb0"",
->>>>>>> 3536063ee738a77ec813195ce14169c204b3dcc5
             ""actions"": [
                 {
                     ""name"": ""Open"",
                     ""type"": ""Button"",
-<<<<<<< HEAD
-                    ""id"": ""0330cea3-849f-459a-9fa9-aff71d37cec4"",
-=======
                     ""id"": ""38760103-8c34-4877-bcc6-9f8f6f591913"",
->>>>>>> 3536063ee738a77ec813195ce14169c204b3dcc5
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -341,11 +333,7 @@ public class @Controller1 : IInputActionCollection, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-<<<<<<< HEAD
-                    ""id"": ""5db14484-7ccb-466b-8e6a-ab7018bec8cb"",
-=======
                     ""id"": ""a4f65a14-53d7-4f59-b3b1-e5b76a8fe892"",
->>>>>>> 3536063ee738a77ec813195ce14169c204b3dcc5
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",

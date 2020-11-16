@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2469,6 +2469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ab48f39ee2c0649990032ec83ab055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanvasObject: {fileID: 0}
 --- !u!4 &2057956012
 Transform:
   m_ObjectHideFlags: 0
@@ -2676,75 +2677,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2067694529633605716, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_Cameras.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2067694529633605716, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_Cameras.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2067694529633605716, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_Cameras.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284284641679, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 6291479
-      objectReference: {fileID: 0}
     - target: {fileID: 6409027284341368418, guid: 8aefdb878afcb1343aff5edef27222e6,
         type: 3}
       propertyPath: m_Name
       value: Nezuko
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: airControlPercent
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: walkingForce
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: jumpForce
-      value: 10.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: slidingThrust
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: autoSprint
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: slidingControlPercent
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: slidingDecelerate
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: slidingEndLine
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: slidingDecelerateRatio
-      value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 6409027284341368441, guid: 8aefdb878afcb1343aff5edef27222e6,
         type: 3}
@@ -2800,21 +2736,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368444, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_Height
-      value: 1.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368445, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_Interpolate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368445, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_CollisionDetection
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8aefdb878afcb1343aff5edef27222e6, type: 3}
