@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class BG_Retention : MonoBehaviour
 {
-
     private Canvas canvas;
+
     void Start()
     {
         canvas = GetComponent<Canvas>();
@@ -17,8 +17,12 @@ public class BG_Retention : MonoBehaviour
     private void SceneLoaded(Scene nextScene, LoadSceneMode arg1)
     {
         //Practice画面に遷移したら　BGオブジェクトを壊す
-        if (nextScene.name == "Practice") Destroy(gameObject);
-
+        if (nextScene.name == "Practice")
+        {
+            SceneManager.sceneLoaded -= SceneLoaded;
+            Destroy(gameObject);
+        }
+   
         GameObject mainCamera = GameObject.Find("Main Camera");
         if(mainCamera!=null)
         canvas.worldCamera = mainCamera.GetComponent<Camera>();
