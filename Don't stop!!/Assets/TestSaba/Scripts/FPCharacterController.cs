@@ -36,7 +36,7 @@ public class FPCharacterController : MonoBehaviour
     private float stepOffset = 0.25f;
 
     [SerializeField]
-    [Range(1.5f, 2.1f)]
+    [Range(1.5f, 2)]
     [Tooltip("ｷｬﾗｸﾀｰのｶﾌﾟｾﾙｺﾗｲﾀﾞｰの高さ(ﾒｰﾄﾙ単位)")]
     private float characterHeight = 1.8f;
 
@@ -49,6 +49,25 @@ public class FPCharacterController : MonoBehaviour
     [Range(50, 100)]
     [Tooltip("ｷｬﾗｸﾀｰの質量(動きに影響する)")]
     private float characterWeight = 80;
+
+    [SerializeField]
+    [Range(0.9f, 1.3f)]
+    [Tooltip("しゃがんでいるときの高さ")]
+    private float crouchingHeight = 1.25f;
+
+    [SerializeField]
+    [Range(0.8f, 1.3f)]
+    [Tooltip("ｽﾗｲﾃﾞｨﾝｸﾞ中のときの高さ")]
+    private float slidingHeight = 0.9f;
+
+    [SerializeField]
+    [Range(0.001f, 2f)]
+    [Tooltip("立ち状態としゃがみ状態との移行速度")]
+    private float crouchingSpeed = 0.5f;
+
+    [SerializeField]
+    [Tooltip("走るときのﾓｰﾄﾞ(ｵｰﾄﾗﾝ, 切り替え式)true = ｵｰﾄﾗﾝ")]
+    private bool runMode = true;
 
     #endregion
 
@@ -73,6 +92,11 @@ public class FPCharacterController : MonoBehaviour
     [MinMaxRange(0, Mathf.Infinity)]
     [Tooltip("この値にwalkingForceをかけて走る力にする")]
     private float runMultiplier = 2.25f;
+
+    [SerializeField]
+    [Range(0, 1)]
+    [Tooltip("ｵｰﾄｽﾌﾟﾘﾝﾄ設定の時の走りに切り替わるまでの時間")]
+    private float autoSprint = 0.5f;
 
     [SerializeField]
     [MinMaxRange(0, Mathf.Infinity)]
@@ -117,14 +141,42 @@ public class FPCharacterController : MonoBehaviour
     #region SLIDING
 
     /// <summary>
-    /// ｽﾗｲﾃﾞｨﾝｸﾞするか
-    /// </summary>
-    private bool sliding;
-
-    /// <summary>
     /// ｽﾗｲﾃﾞｨﾝｸﾞ中か
     /// </summary>
     private bool isSliding;
+
+    private float desiredSlidingDistance;
+    private Vector3 slidingStartPosition;
+    private Vector3 slidingThrust;
+
+    [SerializeField]
+    [Range(0, 1)]
+    [Tooltip("ｽﾗｲﾃﾞｨﾝｸﾞ中の移動する力でｷｬﾗｸﾀｰがどの程度影響を受けるか")]
+    private float slidingControlPercent = 0.5f;
+
+    [SerializeField]
+    [MinMaxRange(0, Mathf.Infinity)]
+    [Tooltip("ｽﾗｲﾃﾞｨﾝｸﾞが終わる推力")]
+    private float slidingEndLine = 10f;
+
+    [SerializeField]
+    [Range(0.5f, 1)]
+    [Tooltip("減速割合(推力×比率)")]
+    private float slidingDecelerateRatio = 0.99f;
+
+    #endregion
+
+    #region CROUCH
+
+    /// <summary>
+    /// しゃがむか
+    /// </summary>
+    private bool crouhing;
+
+    /// <summary>
+    /// しゃがんでいるかどうか
+    /// </summary>
+    public bool IsCrouched { get; private set; }
 
     #endregion
 
@@ -152,11 +204,6 @@ public class FPCharacterController : MonoBehaviour
     /// ﾌﾟﾚｲﾔｰの入力をｷｬﾗが受け取れるかどうか
     /// </summary>
     public bool controllable { get; set; }
-
-    /// <summary>
-    /// しゃがんでいるかどうか
-    /// </summary>
-    public bool IsCrouched { get; private set; }
 
     /// <summary>
     /// ｴｲﾑしているかどうか
@@ -202,7 +249,7 @@ public class FPCharacterController : MonoBehaviour
     }
 
     /// <summary>
-    /// 重み係数でバランスされたジャンプ力を返します。
+    /// 重み係数でﾊﾞﾗﾝｽされたｼﾞｬﾝﾌﾟ力を返します。
     /// </summary>
     private float JumpForce
     {
@@ -216,19 +263,26 @@ public class FPCharacterController : MonoBehaviour
     }
 
     /// <summary>
+    /// 重み係数でﾊﾞﾗﾝｽされたｽﾗｲﾃﾞｨﾝｸﾞの推力を返します。
+    /// </summary>
+    private Vector3 SlidingThrust => slidingThrust;// * WeightFactor;
+
+    /*
+    /// <summary>
     /// ｷｬﾗｸﾀｰが運ぶ重さによる力の損失を返す
     /// </summary>
     private float WeightFactor
     {
         get
         {
-            //if (!m_Stamina)
+            if (!m_Stamina)
                 return 1;
 
-            //float factor = Mathf.Clamp01(1 + m_MaxSpeedLoss - ((1 - m_MaxSpeedLoss) * Weight + m_MaxWeight * m_MaxSpeedLoss) / m_MaxWeight);
-            //return factor;
+            float factor = Mathf.Clamp01(1 + m_MaxSpeedLoss - ((1 - m_MaxSpeedLoss) * Weight + m_MaxWeight * m_MaxSpeedLoss) / m_MaxWeight);
+            return factor;
         }
     }
+    */
 
     /// <summary>
     /// 現在のﾓｰｼｮﾝ:idle
@@ -251,14 +305,13 @@ public class FPCharacterController : MonoBehaviour
     private bool jump;
     private bool jumping;
     private bool running;
+    private float runTime;
 
     private void Awake()
     {
         controller = new Controller1();
 
         // ｺｰﾙﾊﾞｯｸの登録
-
-        // まだ割り当てなし
         controller.TestPlayer.Jump.started += _ => South();
         controller.TestPlayer.WpChange.started += _ => North();
         controller.TestPlayer.Crouch.started += _ => East();
@@ -284,13 +337,27 @@ public class FPCharacterController : MonoBehaviour
 
     private void Start()
     {
+        // Componentの取得,初期化
         capsule = GetComponent<CapsuleCollider>();
         rigidbody = GetComponent<Rigidbody>();
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         cameraController = new CameraController();
         cameraController.Init(transform, FPSCamera.transform);
 
+        // ｷｬﾗｸﾀｰｾｯﾃｨﾝｸﾞ
+        capsule.height = characterHeight;
+        capsule.radius = characterShoulderWidth;
+        rigidbody.mass = characterWeight / 10f;
+
+        // 移動
+        runTime = 0;
+
         // ｽﾗｲﾃﾞｨﾝｸﾞ
-        sliding = false;
+        slidingThrust = Vector3.zero;
+        desiredSlidingDistance = 20;
+
+        // しゃがみ
 
         // ｺﾝﾄﾛｰﾗｰ
         controllable = true;
@@ -330,9 +397,32 @@ public class FPCharacterController : MonoBehaviour
     /// </summary>
     private void ApplyInputVelocityChange(Vector2 input)
     {
-        if (sliding)
+        if (isSliding)
         {
+            if (slidingThrust.magnitude < slidingEndLine)
+            {
+                isSliding = false;
+                return;
+            }
+            if (!(rigidbody.velocity.sqrMagnitude < (SlidingThrust.magnitude * SlidingThrust.magnitude))) return;
 
+            slidingThrust *= 0.99f;
+
+            // 入力があれば
+            if (Mathf.Abs(input.x) - Mathf.Epsilon > 0 || Mathf.Abs(input.y) - Mathf.Epsilon > 0)
+            {
+                // 移動方向の計算
+                var t = transform;
+                var desiredMove = t.forward * input.y + t.right * input.x;
+                desiredMove *= CurrentTargetForce * slidingControlPercent;
+                desiredMove = SlidingThrust + desiredMove;
+
+                rigidbody.AddForce(desiredMove, ForceMode.Impulse);
+            }
+            else
+            {
+                rigidbody.AddForce(SlidingThrust, ForceMode.Impulse);
+            }
         }
         else
         {
@@ -348,7 +438,11 @@ public class FPCharacterController : MonoBehaviour
                 desiredMove.z *= (grounded ? CurrentTargetForce : CurrentTargetForce * airControlPercent);
                 desiredMove.y = desiredMove.y * (grounded ? CurrentTargetForce : CurrentTargetForce * airControlPercent);
 
-                if (rigidbody.velocity.sqrMagnitude < (CurrentTargetForce * CurrentTargetForce))
+                var planeVelocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+                var desiredPlaneVelocity = rigidbody.velocity + desiredMove / rigidbody.mass;
+                desiredPlaneVelocity = new Vector3(desiredPlaneVelocity.x, 0, desiredPlaneVelocity.z);
+
+                if (planeVelocity.sqrMagnitude < (CurrentTargetForce * CurrentTargetForce) || planeVelocity.sqrMagnitude > desiredPlaneVelocity.sqrMagnitude)
                 {
                     rigidbody.AddForce(desiredMove, ForceMode.Impulse);
                 }
@@ -386,6 +480,7 @@ public class FPCharacterController : MonoBehaviour
         else
         {
             rigidbody.drag = 0f;
+
             var gravity = Physics.gravity * gravityMultiplier;
 
             if (rigidbody.velocity.magnitude < Mathf.Abs(gravity.y * characterWeight / 2))
@@ -423,6 +518,84 @@ public class FPCharacterController : MonoBehaviour
 
         // 操作可能か
         if (controllable) HandleInput();
+        /*
+        if (Grounded || State == MotionState.Climbing)
+        {
+            LadderEvent?.Invoke(State == MotionState.Climbing);
+
+            if (m_Footsteps && State != MotionState.Flying)
+                FootStepCycle();
+
+            if (m_Stamina)
+            {
+                // Updates stamina amount.
+                m_StaminaAmount = Mathf.MoveTowards(m_StaminaAmount, m_Running && !IsCrouched && Velocity.sqrMagnitude > CurrentTargetForce * CurrentTargetForce * 0.1f
+                    ? 0 : m_MaxStaminaAmount, Time.deltaTime * (m_Running ? m_DecrementRatio : m_IncrementRatio));
+
+                if (m_Fatigue)
+                {
+                    if (m_StaminaAmount <= m_StaminaThreshold)
+                    {
+                        // Only plays the breath sound if the current stamina amount is less or equal the threshold.
+                        m_PlayerBreathSource.Play(m_BreathSound, m_MaximumBreathVolume);
+                        m_PlayerBreathSource.CalculateVolumeByPercent(m_StaminaThreshold, m_StaminaAmount, m_MaximumBreathVolume);
+                    }
+                }
+            }
+
+            if (IsSliding)
+            {
+                // Stand up if there is anything preventing the character to slide.
+                if (State != MotionState.Running || Vector3.Distance(transform.position, m_SlidingStartPosition) > m_DesiredSlidingDistance
+                    || Vector3.Dot(transform.forward, m_SlidingStartDirection) <= 0 || m_GroundRelativeAngle > m_SlidingSlopeLimit)
+                {
+                    IsSliding = false;
+                    m_PreviouslySliding = false;
+                    m_NextSlidingTime = Time.time + m_DelayToGetUp;
+                    m_DesiredSlidingDistance = m_SlidingDistance.x;
+                    m_PlayerFootstepsSource.Stop();
+                    m_Running = m_StandAfterSliding && m_Running;
+                    IsCrouched = !m_StandAfterSliding || PreventStandingInLowHeadroom(transform.position);
+
+                    GettingUpEvent?.Invoke();
+
+                    if (m_OverrideCameraPitchLimit)
+                    {
+                        m_CameraController.OverrideCameraPitchLimit(false, m_SlidingCameraPitch.x, m_SlidingCameraPitch.y);
+                    }
+                }
+                else
+                {
+                    if (!m_PreviouslySliding)
+                    {
+                        m_PreviouslySliding = true;
+
+                        StartSlidingEvent?.Invoke();
+                    }
+
+                    ScaleCapsuleForCrouching(IsSliding, 0.9f, m_CrouchingSpeed * 2);
+
+                    if (m_OverrideCameraPitchLimit)
+                    {
+                        m_CameraController.OverrideCameraPitchLimit(IsSliding, m_SlidingCameraPitch.x, m_SlidingCameraPitch.y);
+                    }
+                }
+            }
+            else
+            {
+                // Calculate the sliding distance based on how much the character was running.
+                m_DesiredSlidingDistance = Mathf.Max(Mathf.MoveTowards(m_DesiredSlidingDistance, State == MotionState.Running ? m_SlidingDistance.y * WeightFactor
+                    : m_SlidingDistance.x, Time.deltaTime * (State == MotionState.Running ? 2 : 3)), m_SlidingDistance.x);
+
+                ScaleCapsuleForCrouching(IsCrouched, m_CrouchingHeight, m_CrouchingSpeed);
+            }
+        }
+        */
+
+        if (Vector3.Distance(transform.position, slidingStartPosition) > desiredSlidingDistance)
+        {
+            //isSliding = false;
+        }
 
         if (grounded || (previouslyGrounded || climbing))
         {
@@ -441,12 +614,95 @@ public class FPCharacterController : MonoBehaviour
     private void HandleInput()
     {
         // 接地しているか、ｽﾗｲﾃﾞｨﾝｸﾞしていないか、登ってないか、
-        if (grounded && !sliding && !climbing)
+        if (grounded && !isSliding && !climbing)
         {
             
         }
-        
-        CheckRunning();
+
+        if (grounded)
+        {
+            CheckRunning();
+
+            if (!crouhing)
+            {
+                ScaleCapsuleForCrouching(isSliding, characterHeight, crouchingSpeed * 2);
+                IsCrouched = false;
+                isSliding = false;
+                return;
+            }
+
+            IsCrouched = true;
+
+            if (running)
+            {
+                if (!isSliding)
+                {
+                    slidingThrust = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z) * 2f;
+                    slidingStartPosition = transform.position;
+                }
+                isSliding = true;
+            }
+
+            if (isSliding)
+            {
+                ScaleCapsuleForCrouching(isSliding, slidingHeight, crouchingSpeed * 2);
+            }
+            else
+            {
+                ScaleCapsuleForCrouching(IsCrouched, crouchingHeight, crouchingSpeed);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Prevent the character from standing up.
+    /// </summary>
+    private bool PreventStandingInLowHeadroom(Vector3 position)
+    {
+        Ray ray = new Ray(position + capsule.center + new Vector3(0, capsule.height * 0.25f), transform.TransformDirection(Vector3.up));
+
+        return Physics.SphereCast(ray, capsule.radius * 0.75f, out _, IsCrouched ? characterHeight * 0.6f : jumpForce * 0.12f,
+            Physics.AllLayers, QueryTriggerInteraction.Ignore);
+    }
+
+    /// <summary>
+    /// ｷｬﾗｸﾀｰの状態に応じたｶﾌﾟｾﾙのｽｹｰﾙ設定を適用
+    /// </summary>
+    /// <param name="isCrouched">ｷｬﾗｸﾀｰがしゃがんでいるか</param>
+    /// <param name="height">ｶﾌﾟｾﾙの高さ</param>
+    /// <param name="crouchingSpeed">しゃがむ速度</param>
+    private void ScaleCapsuleForCrouching(bool isCrouched, float height, float crouchingSpeed)
+    {
+        if (isCrouched)
+        {
+            if (Mathf.Abs(capsule.height - height) > Mathf.Epsilon)
+            {
+                //m_PlayerFootstepsSource.ForcePlay(m_CrouchingDownSound, m_CrouchingVolume);
+                //m_NextStep = m_CrouchingDownSound.length + Time.time;
+            }
+
+            capsule.height = height;
+            capsule.radius = characterShoulderWidth * 0.5f;
+            capsule.center = new Vector3(0, -(characterHeight - height) / 2, 0);
+
+            FPSCamera.transform.localPosition = Vector3.MoveTowards(FPSCamera.transform.localPosition, new Vector3(0, height - 1, 0),
+                Time.deltaTime * 5 * crouchingSpeed);
+        }
+        else
+        {
+            if (Mathf.Abs(capsule.height - characterHeight) > Mathf.Epsilon)
+            {
+                //m_PlayerFootstepsSource.ForcePlay(m_StandingUpSound, m_CrouchingVolume);
+                //m_NextStep = m_StandingUpSound.length + Time.time;
+            }
+
+            capsule.height = characterHeight;
+            capsule.radius = characterShoulderWidth * 0.5f;
+            capsule.center = Vector3.zero;
+
+            FPSCamera.transform.localPosition = Vector3.MoveTowards(FPSCamera.transform.localPosition, new Vector3(0, characterHeight * 0.4f, 0),
+                Time.deltaTime * 5 * crouchingSpeed);
+        }
     }
 
     private void LateUpdate()
@@ -515,11 +771,10 @@ public class FPCharacterController : MonoBehaviour
             groundContactNormal = Vector3.up;
         }
 
-        
-        //if (!m_PreviouslyGrounded && grounded && jumping)
-        //{
-        //    m_Jumping = false;
-        //}
+        if (!previouslyGrounded && grounded && jumping)
+        {
+            jumping = false;
+        }
     }
 
     /// <summary>
@@ -527,32 +782,28 @@ public class FPCharacterController : MonoBehaviour
     /// </summary>
     private void CheckRunning()
     {
-        var input = GetMoveInput();
         // 入力があれば
-        if (Mathf.Abs(input.x) - Mathf.Epsilon > 0 || Mathf.Abs(input.y) - Mathf.Epsilon > 0)
+        if (rigidbody.velocity.magnitude > float.Epsilon)
         {
-            running = true;
+            runTime += Time.deltaTime;
+        }
+        else
+        {
+            runTime = 0;
         }
 
-
-        //if (!LowerBodyDamaged && GetMoveInput().y > 0 && !IsAiming && !m_Climbing)
-        //{
-        //    if (GameplayManager.Instance.SprintStyle == ActionMode.Hold)
-        //    {
-        //        running = InputManager.GetButton(m_RunButton);
-        //    }
-        //    else
-        //    {
-        //        if (InputManager.GetButtonDown(m_RunButton))
-        //        {
-        //            running = !running;
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    running = false;
-        //}
+        // ｴｲﾑしてなくて、登ってなくて、ｽﾌﾟﾘﾝﾄに移行できるとき
+        if (!isAiming && !climbing && !IsCrouched && runTime > autoSprint)
+        {
+            if (Input.GetKey(KeyCode.V) || runMode)
+            {
+                running = true;
+            }
+        }
+        else
+        {
+            running = false;
+        }
     }
 
     /// <summary>
@@ -572,41 +823,47 @@ public class FPCharacterController : MonoBehaviour
         return controller.TestPlayer.Direction.ReadValue<Vector2>();
     }
 
-    // 東,B
+    // 東,B,(LShift,LCtrl)
     private void East()
     {
-        Debug.Log("しゃがみ、ｽﾗｲﾃﾞｨﾝｸﾞ");
+        if (grounded)
+        {
+            // しゃがむ(切り替え)
+            crouhing = !crouhing;
+        }
+        //Debug.Log("しゃがみ、ｽﾗｲﾃﾞｨﾝｸﾞ");
     }
 
-    // 西,X
+    // 西,X,(R,E)
     private void West()
     {
         Debug.Log("ﾘﾛｰﾄﾞ");
     }
 
-    // 南,A
+    // 南,A,(Space)
     private void South()
     {
+        crouhing = false;
         jump = true;
-        Debug.Log("ｼﾞｬﾝﾌﾟ、決定");
+        //Debug.Log("ｼﾞｬﾝﾌﾟ、決定");
     }
 
-    // 北,Y
+    // 北,Y,(MouseWheel)
     private void North()
     {
         Debug.Log("武器ﾁｪﾝ");
     }
 
-    // RT
+    // RT,(MouseLClick)
     private void Shoot()
     {
         Debug.Log("弾を撃つ");
     }
 
-    // LT
+    // LT,(MouseRClick)
     private void Aim()
     {
         FPSCamera.fieldOfView = 40;
-        Debug.Log("狙う(ちょいｽﾞｰﾑ)");
+        //Debug.Log("狙う(ちょいｽﾞｰﾑ)");
     }
 }
