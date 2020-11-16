@@ -167,7 +167,18 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0c4a55a7-9003-4aa6-b1b0-8235fdd9c412"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -220,6 +231,17 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""86a7064a-07dd-40bd-8e3e-96fb4ffe3cab"",
                     ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d6cfa85-ee1d-401f-bc51-d505b4a2f5c3"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -294,6 +316,33 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Option"",
+            ""id"": ""ad279b73-ba85-4df5-97d1-091c656d6eb0"",
+            ""actions"": [
+                {
+                    ""name"": ""Open"",
+                    ""type"": ""Button"",
+                    ""id"": ""38760103-8c34-4877-bcc6-9f8f6f591913"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a4f65a14-53d7-4f59-b3b1-e5b76a8fe892"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Open"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -352,6 +401,9 @@ public class @Controller1 : IInputActionCollection, IDisposable
         m_TestPlayer_Reload = m_TestPlayer.FindAction("Reload", throwIfNotFound: true);
         m_TestPlayer_Shoot = m_TestPlayer.FindAction("Shoot", throwIfNotFound: true);
         m_TestPlayer_Aim = m_TestPlayer.FindAction("Aim", throwIfNotFound: true);
+        // Option
+        m_Option = asset.FindActionMap("Option", throwIfNotFound: true);
+        m_Option_Open = m_Option.FindAction("Open", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -486,6 +538,39 @@ public class @Controller1 : IInputActionCollection, IDisposable
         }
     }
     public TestPlayerActions @TestPlayer => new TestPlayerActions(this);
+
+    // Option
+    private readonly InputActionMap m_Option;
+    private IOptionActions m_OptionActionsCallbackInterface;
+    private readonly InputAction m_Option_Open;
+    public struct OptionActions
+    {
+        private @Controller1 m_Wrapper;
+        public OptionActions(@Controller1 wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Open => m_Wrapper.m_Option_Open;
+        public InputActionMap Get() { return m_Wrapper.m_Option; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(OptionActions set) { return set.Get(); }
+        public void SetCallbacks(IOptionActions instance)
+        {
+            if (m_Wrapper.m_OptionActionsCallbackInterface != null)
+            {
+                @Open.started -= m_Wrapper.m_OptionActionsCallbackInterface.OnOpen;
+                @Open.performed -= m_Wrapper.m_OptionActionsCallbackInterface.OnOpen;
+                @Open.canceled -= m_Wrapper.m_OptionActionsCallbackInterface.OnOpen;
+            }
+            m_Wrapper.m_OptionActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Open.started += instance.OnOpen;
+                @Open.performed += instance.OnOpen;
+                @Open.canceled += instance.OnOpen;
+            }
+        }
+    }
+    public OptionActions @Option => new OptionActions(this);
     private int m_NewcontrolschemeSchemeIndex = -1;
     public InputControlScheme NewcontrolschemeScheme
     {
@@ -523,5 +608,9 @@ public class @Controller1 : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+    }
+    public interface IOptionActions
+    {
+        void OnOpen(InputAction.CallbackContext context);
     }
 }

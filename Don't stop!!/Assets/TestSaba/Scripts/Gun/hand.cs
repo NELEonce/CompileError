@@ -6,6 +6,13 @@ public class hand : MonoBehaviour
 {
     private Animator anim;
 
+    [SerializeField]
+    private Transform ejectorPoint;
+
+    [SerializeField]
+    private GameObject bullet;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +24,7 @@ public class hand : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            Instantiate(bullet, ejectorPoint.position, ejectorPoint.rotation);
             anim.Play("Fire", 0, 0.0f);
         }
 
