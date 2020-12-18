@@ -28,7 +28,6 @@ namespace Doozy.Engine.Touchy
             for (int i = 0; i < touchCount; i++)
                 s_touches.Add(Input.GetTouch(i));
 
-
             // Uncomment if you want it only to allow mouse swipes in the Unity Editor
             //#if UNITY_EDITOR
             if (s_lastSimulatedTouch == null) s_lastSimulatedTouch = new SimulatedTouch();

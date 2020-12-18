@@ -16,8 +16,11 @@ public class BG_Retention : MonoBehaviour
 
     private void SceneLoaded(Scene nextScene, LoadSceneMode arg1)
     {
-        //Practice画面に遷移したら　BGオブジェクトを壊す
-        if (nextScene.name == "Practice")
+        //ゲーム画面に遷移したら　BGオブジェクトを壊す
+        if (nextScene.name == "Practice"
+            || nextScene.name == "Stage1"
+            || nextScene.name == "Stage2"
+            || nextScene.name == "Stage3")
         {
             SceneManager.sceneLoaded -= SceneLoaded;
             Destroy(gameObject);

@@ -16,7 +16,6 @@ MonoBehaviour:
   DatabaseType: 0
   Names:
   - backSetting
-  - BackTitle
   - Continue
   - Play
   - Practice
@@ -31,7 +30,6 @@ MonoBehaviour:
   - Stage3
   - Stage3Start
   - Start
-  - test
   - Title
   - UI
-  - back
+  - backChoice

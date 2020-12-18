@@ -2,18 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Doozy.Engine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+
+
 
 public class GameManager : MonoBehaviour
 {
     private Controller1 controller;
-    private GameObject sirubeMusi;
+    private MouseFollow mouseFollow;
+    private GameObject player;
 
-    [SerializeField] GameObject CanvasObject;
+    [SerializeField]
+    private　GameObject CanvasObject;            //オプション画面
+
+    [SerializeField]
+    private TextMeshProUGUI timeText;           //ゲーム中にタイムを表示する
+
+    [SerializeField]
+    private　GameObject gameCanvas;             //ゲーム中UI
+
+    [SerializeField]
+    private　GameObject ResultCanvas;           //リザルト画面
+
+    [SerializeField]
+    private Image image;                        //ﾌｪｰﾄﾞ用の画像
+
+
+    public bool playEnd { get; set; }   // ﾒｲﾝｹﾞｰﾑが終了しているかのフラグ
+    private float playEndTime;          // ﾒｲﾝｹﾞｰﾑ後の経過時間(秒)
+    private float playTime;             // 時間(秒)
+    private bool isCalledOnce;          // 一回だけ呼びたい
+ 
 
     private void Awake()
     {
         //導蟲取得
-        sirubeMusi = GameObject.Find("Particle System");
+        mouseFollow = GameObject.Find("ScoutfliesCanvas").GetComponent<MouseFollow>();
 
         controller = new Controller1();
 
@@ -37,61 +63,135 @@ public class GameManager : MonoBehaviour
         controller.Dispose();
     }
 
-    void Start()
+    private void Start()
     {
-        // ｶｰｿﾙを非表示かつﾛｯｸする
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         //ｵﾌﾞｼﾞｪｸﾄの非表示
         CanvasObject.SetActive(false);
 
-        //ゲームが始まったら導蟲を非表示
-        sirubeMusi.SetActive(false);
+        //ゲーム中UI
+        gameCanvas.SetActive(true);
+
+        //導蟲の非表示
+        mouseFollow.mouseFlag = false;
+
+        //禰豆子の取得
+        player = GameObject.Find("Nezuko");
+
+        //ｹﾞｰﾑ終了ﾌﾗｸﾞ
+        playEnd = false;
+
+        isCalledOnce = false;
+
+        //3秒後に動き出す
+        StartCoroutine(moveTime());
+
+        //最初は動かない
+        Time.timeScale = 0;
     }
 
-
-    void Update()
+    private void Update()
     {
-        
+        // 時間をカウントして表示
+        if (!playEnd)
+        {
+            // ｹﾞｰﾑが終了していなければ経過時間をカウント
+            playTime += Time.deltaTime;
+            int minute = (int)playTime / 60;
+            int second = (int)playTime % 60;
+            timeText.text = string.Format("{0:d2}:{1:d2}:{2:d2}", minute, second, (int)(playTime * 100 % 100));
+        }
+        else if(playEnd)
+        {
+            //ｹﾞｰﾑが終了したら
+            playEndTime = 0.0f;
+
+            //ｻﾞ・ﾜｰﾙﾄﾞ
+            Time.timeScale = 0;
+            var player = GameObject.Find("Nezuko");
+            player.GetComponent<FPCharacterController>().enabled = false;
+
+            //導蟲の表示
+            mouseFollow.mouseFlag = true;
+
+            //ﾁｭｰﾄﾘｱﾙｼｰﾝなら
+            if (SceneManager.GetActiveScene().name == "Practice")
+            {
+                //ﾌｪｰﾄﾞｱｳﾄ
+                image.color += Color.black * 0.006f;
+                if (image.color.a >= 1)
+                //結果は出さずにｾﾚｸﾄ画面に戻る
+                GameEventMessage.SendEvent("SelectTrantion");
+                return;
+            }
+
+            //ﾘｻﾞﾙﾄ画面表示
+            if (!isCalledOnce)
+            {
+                isCalledOnce = true;
+                //ｹﾞｰﾑ中
+                gameCanvas.SetActive(false);
+
+                // データスクリプトを取得
+                Data data = GameObject.Find("DataManager").GetComponent<Data>();
+
+                for (int i = 0; i < Data.StageMaxNum; i++)
+                {
+                    //各ｽﾃｰｼﾞによって結果を表示する
+                    if (SceneManager.GetActiveScene().name == "Stage" + (1+i).ToString())
+                    {
+                        data.SetTime(i, playTime);
+                    }
+                }
+                var canvas = ResultCanvas.GetComponent<Canvas>();
+                canvas.worldCamera = GameObject.Find("SubCamera").GetComponent<Camera>();
+                Instantiate(ResultCanvas);
+            }
+        }   
     }
 
     //Escｷｰを押したら
-    void OpenOpstion()
+    private void OpenOpstion()
     {
-        //ｻﾞ・ﾜｰﾙﾄﾞ
-        Time.timeScale = 0;
+        if (!playEnd)
+        {
+            //ｻﾞ・ﾜｰﾙﾄﾞ
+            Time.timeScale = 0;
+            var player = GameObject.Find("Nezuko");
+            player.GetComponent<FPCharacterController>().enabled = false;
 
-        //ｵﾌﾞｼﾞｪｸﾄの表示
-        CanvasObject.SetActive(true);
+            //ｵﾌﾞｼﾞｪｸﾄの表示
+            CanvasObject.SetActive(true);
 
-        // ｶｰｿﾙを表示し、ﾛｯｸを解除する
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
-
-        //導蟲の表示
-        sirubeMusi.SetActive(true);
+            //導蟲の表示
+            mouseFollow.mouseFlag = true;
+        }
     }
 
     //ｵﾌﾟｼｮﾝ画面を閉じる
     public void CloseOpstion()
     {
-        //ｵﾌﾞｼﾞｪｸﾄの非表示
-        CanvasObject.SetActive(false);
+        if (!playEnd)
+        {
+            //ｵﾌﾞｼﾞｪｸﾄの非表示
+            CanvasObject.SetActive(false);
+            var player = GameObject.Find("Nezuko");
+            player.GetComponent<FPCharacterController>().enabled = true;
 
-        // ｶｰｿﾙを非表示かつﾛｯｸする
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+            //導蟲の非表示
+            mouseFollow.mouseFlag = false;
 
-        //導蟲の非表示
-        sirubeMusi.SetActive(false);
-
-        //そして時は動き出す。
-        Time.timeScale = 1;
+            //そして時は動き出す。
+            Time.timeScale = 1;
+        }
     }
 
-    public void TimeMove()
+    IEnumerator moveTime()
     {
+        //3秒待機
+        yield return new WaitForSecondsRealtime(3.1f);
         Time.timeScale = 1;
+
+        GameEventMessage.SendEvent("TutorialSound");
+
     }
 }

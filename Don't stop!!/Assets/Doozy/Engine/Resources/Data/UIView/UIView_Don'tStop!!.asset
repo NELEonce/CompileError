@@ -15,6 +15,7 @@ MonoBehaviour:
   CategoryName: Don't Stop!!
   DatabaseType: 2
   Names:
+  - Choice
   - Practice
   - Secret
   - Select

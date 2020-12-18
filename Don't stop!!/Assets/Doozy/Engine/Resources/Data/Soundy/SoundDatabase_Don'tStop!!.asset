@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5712649909741100882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6c631d933489d4ca7328a2a5983e10, type: 3}
+  m_Name: Stage2_BGM
+  m_EditorClassIdentifier: 
+  DatabaseName: Don't Stop!!
+  SoundName: Stage2_BGM
+  IgnoreListenerPause: 0
+  Volume:
+    MinValue: 0
+    MaxValue: 0
+  Pitch:
+    MinValue: 0
+    MaxValue: 0
+  SpatialBlend: 0
+  Loop: 0
+  Mode: 0
+  ResetSequenceAfterInactiveTime: 0
+  SequenceResetTime: 5
+  Sounds: []
 --- !u!114 &-2950221183328803491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,6 +42,62 @@ MonoBehaviour:
   DatabaseName: Don't Stop!!
   SoundName: No Sound
   IgnoreListenerPause: 1
+  Volume:
+    MinValue: 0
+    MaxValue: 0
+  Pitch:
+    MinValue: 0
+    MaxValue: 0
+  SpatialBlend: 0
+  Loop: 0
+  Mode: 0
+  ResetSequenceAfterInactiveTime: 0
+  SequenceResetTime: 5
+  Sounds: []
+--- !u!114 &-1409554531899999839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6c631d933489d4ca7328a2a5983e10, type: 3}
+  m_Name: Stage1_BGM
+  m_EditorClassIdentifier: 
+  DatabaseName: Don't Stop!!
+  SoundName: Stage1_BGM
+  IgnoreListenerPause: 0
+  Volume:
+    MinValue: 0
+    MaxValue: 0
+  Pitch:
+    MinValue: 0
+    MaxValue: 0
+  SpatialBlend: 0
+  Loop: 1
+  Mode: 0
+  ResetSequenceAfterInactiveTime: 0
+  SequenceResetTime: 5
+  Sounds:
+  - AudioClip: {fileID: 8300000, guid: 932e9a75f7b31cd408a031033a569986, type: 3}
+    Weight: 1
+--- !u!114 &-16084068911041526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6c631d933489d4ca7328a2a5983e10, type: 3}
+  m_Name: Stage3_BGM
+  m_EditorClassIdentifier: 
+  DatabaseName: Don't Stop!!
+  SoundName: Stage3_BGM
+  IgnoreListenerPause: 0
   Volume:
     MinValue: 0
     MaxValue: 0
@@ -45,10 +128,47 @@ MonoBehaviour:
   SoundNames:
   - No Sound
   - No Sound
+  - Stage1_BGM
+  - Stage2_BGM
+  - Stage3_BGM
   - Title_BGM
+  - Tutorial_BGM
   Database:
   - {fileID: -2950221183328803491}
+  - {fileID: -1409554531899999839}
+  - {fileID: -5712649909741100882}
+  - {fileID: -16084068911041526}
   - {fileID: 5939261464284869467}
+  - {fileID: 2393160279437999888}
+--- !u!114 &2393160279437999888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6c631d933489d4ca7328a2a5983e10, type: 3}
+  m_Name: Tutorial_BGM
+  m_EditorClassIdentifier: 
+  DatabaseName: Don't Stop!!
+  SoundName: Tutorial_BGM
+  IgnoreListenerPause: 0
+  Volume:
+    MinValue: 0
+    MaxValue: 0
+  Pitch:
+    MinValue: 0
+    MaxValue: 0
+  SpatialBlend: 0
+  Loop: 1
+  Mode: 0
+  ResetSequenceAfterInactiveTime: 0
+  SequenceResetTime: 5
+  Sounds:
+  - AudioClip: {fileID: 8300000, guid: 3619bf91e885610468b99f8ebfe0952e, type: 3}
+    Weight: 1
 --- !u!114 &5939261464284869467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DatabaseName: Don't Stop!!
   SoundName: Title_BGM
-  IgnoreListenerPause: 1
+  IgnoreListenerPause: 0
   Volume:
     MinValue: 0
     MaxValue: 0
@@ -76,5 +196,5 @@ MonoBehaviour:
   ResetSequenceAfterInactiveTime: 0
   SequenceResetTime: 5
   Sounds:
-  - AudioClip: {fileID: 8300000, guid: 16a9a10d399035c43a741672f76da990, type: 3}
+  - AudioClip: {fileID: 8300000, guid: 38a8c16586e2c1f41aa8a727dbf2933d, type: 3}
     Weight: 1
