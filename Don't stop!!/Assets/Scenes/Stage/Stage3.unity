@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: ab631da722132a74b9041c50e10ecb4b,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -122,52 +122,27 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &81916163
+--- !u!1001 &292177698
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6368716842680177690, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6368716842680177690, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6409027284341368418, guid: 8aefdb878afcb1343aff5edef27222e6,
         type: 3}
       propertyPath: m_Name
       value: Nezuko
       objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368418, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: characterWeight
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
-        type: 3}
-      propertyPath: jumpForce
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6409027284341368441, guid: 8aefdb878afcb1343aff5edef27222e6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.48
       objectReference: {fileID: 0}
     - target: {fileID: 6409027284341368441, guid: 8aefdb878afcb1343aff5edef27222e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.22
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 6409027284341368441, guid: 8aefdb878afcb1343aff5edef27222e6,
         type: 3}
@@ -568,6 +543,18 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 398296dfe6c4cb04f9de99f19028ac04, type: 2}
+--- !u!114 &969561198 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1002115838, guid: 6186715004d073a4da5065ae5a4a282e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2060544004}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1088898253
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,6 +983,11 @@ PrefabInstance:
       propertyPath: CanvasObject
       value: 
       objectReference: {fileID: 372066471}
+    - target: {fileID: 5517359399464319692, guid: f2443f51d13aa144ea5d7bd34d09101a,
+        type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 969561198}
     - target: {fileID: 5517359399464319693, guid: f2443f51d13aa144ea5d7bd34d09101a,
         type: 3}
       propertyPath: m_Name

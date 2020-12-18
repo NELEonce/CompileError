@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Clear
+  - WallRun
   layers:
   - Default
   - TransparentFX
