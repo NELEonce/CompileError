@@ -17,7 +17,7 @@ public class ClearTime : MonoBehaviour
     void Start()
     {
         // データスクリプトを取得
-        Data data = GameObject.Find("DataManager").GetComponent<Data>();
+        RecordData data = GameObject.Find("DataManager").GetComponent<RecordData>();
 
         // クリアタイムをUIに表示
         float b = 0,c = 0;

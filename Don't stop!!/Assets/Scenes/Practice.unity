@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 9d0767bb0b46bc54db2aee1e36635e3d,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -8052,6 +8052,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544607456}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!20 &593879899 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6409027284284641679, guid: 8aefdb878afcb1343aff5edef27222e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1742500262}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &607240793
 GameObject:
   m_ObjectHideFlags: 0
@@ -12127,6 +12133,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nezuko
       objectReference: {fileID: 0}
+    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
+        type: 3}
+      propertyPath: cameraController.m_YawSensitivity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409027284341368440, guid: 8aefdb878afcb1343aff5edef27222e6,
+        type: 3}
+      propertyPath: FPSCamera
+      value: 
+      objectReference: {fileID: 593879899}
     - target: {fileID: 6409027284341368441, guid: 8aefdb878afcb1343aff5edef27222e6,
         type: 3}
       propertyPath: m_LocalPosition.x

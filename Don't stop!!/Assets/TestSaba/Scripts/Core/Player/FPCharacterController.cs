@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using Doozy.Engine.Attributes;
-using UnityEditor;
 
 namespace DontStop.Player
 {
@@ -31,7 +30,6 @@ namespace DontStop.Player
         Right = -1
     }
 
-    [CustomEditor(typeof(CameraController))]
     [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(CapsuleCollider)), DisallowMultipleComponent]
     public class FPCharacterController : MonoBehaviour
     {
@@ -253,6 +251,8 @@ namespace DontStop.Player
 
         #endregion
 
+        // ---------------------------------event------------------
+        /*
         #region EVENTS
 
         public event System.Action ClimbingEvent;       // 登り
@@ -262,6 +262,7 @@ namespace DontStop.Player
         public event System.Action EndSlidingEvent;     // ｽﾗｲﾃﾞｨﾝｸﾞ終了
 
         #endregion
+        */
 
         #region CONTROLLER PROPERTIES
 
@@ -540,8 +541,10 @@ namespace DontStop.Player
                     rigidbody.AddForce(jumpDirForce, ForceMode.Impulse);
                     jumping = true;
 
+                    /*
                     if (!climbing)
                         JumpEvent?.Invoke();
+                        */
                 }
 
                 groundedSpeed = velocity.sqrMagnitude;
@@ -704,8 +707,7 @@ namespace DontStop.Player
 
         private void Update()
         {
-
-#if UNITY_EDITOR
+            
             //Debug.Log(wallRun);
             //if (!grounded)
             //{
@@ -714,7 +716,6 @@ namespace DontStop.Player
             //        UnityEditor.EditorApplication.isPaused = true;
             //    }
             //}
-#endif
 
             // ｶﾒﾗの回転を更新
             cameraController.UpdateRotation(isAiming, GetViewInput());
