@@ -386,11 +386,6 @@ namespace DontStop.Player
             pController.Disable();
         }
 
-        private void OnDestroy()
-        {
-            pController.Dispose();
-        }
-
         private void Start()
         {
             // -----Componentの取得,初期化

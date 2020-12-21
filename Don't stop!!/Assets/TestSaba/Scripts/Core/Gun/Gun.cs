@@ -43,11 +43,6 @@ namespace DontStop.Weapons
             gunController.Disable();
         }
 
-        private void OnDestroy()
-        {
-            gunController.Dispose();
-        }
-
         void Start()
         {
 

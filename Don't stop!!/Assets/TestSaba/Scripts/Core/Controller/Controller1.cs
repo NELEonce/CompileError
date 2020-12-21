@@ -556,7 +556,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
         public InputAction @Run => m_Wrapper.m_TestPlayer_Run;
         public InputActionMap Get() { return m_Wrapper.m_TestPlayer; }
         public void Enable() { Get().Enable(); }
-        public void Dispose() { Get().Dispose(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(TestPlayerActions set) { return set.Get(); }
@@ -630,7 +629,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
         public InputAction @Aim => m_Wrapper.m_Gun_Aim;
         public InputActionMap Get() { return m_Wrapper.m_Gun; }
         public void Enable() { Get().Enable(); }
-        public void Dispose() { Get().Dispose(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(GunActions set) { return set.Get(); }
@@ -676,7 +674,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
         public InputAction @Open => m_Wrapper.m_Option_Open;
         public InputActionMap Get() { return m_Wrapper.m_Option; }
         public void Enable() { Get().Enable(); }
-        public void Dispose() { Get().Dispose(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(OptionActions set) { return set.Get(); }
