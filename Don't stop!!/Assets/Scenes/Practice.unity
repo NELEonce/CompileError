@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 9d0767bb0b46bc54db2aee1e36635e3d,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -10178,18 +10178,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897789318}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1002115838 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1002115838, guid: 6186715004d073a4da5065ae5a4a282e,
-    type: 3}
-  m_PrefabInstance: {fileID: 5482134751816820063}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1090934901
 GameObject:
   m_ObjectHideFlags: 0
@@ -12128,6 +12116,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1630332609, guid: 8aefdb878afcb1343aff5edef27222e6, type: 3}
+      propertyPath: gunUI.reticle
+      value: 
+      objectReference: {fileID: 2800000, guid: 5ce7effd400ec9b4487f0e7dccabca2f, type: 3}
     - target: {fileID: 6409027284341368418, guid: 8aefdb878afcb1343aff5edef27222e6,
         type: 3}
       propertyPath: m_Name
@@ -15432,20 +15424,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5482134750302246939, guid: 6186715004d073a4da5065ae5a4a282e,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5482134750302246942, guid: 6186715004d073a4da5065ae5a4a282e,
         type: 3}
       propertyPath: m_Name
       value: GameCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482134750994710679, guid: 6186715004d073a4da5065ae5a4a282e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6186715004d073a4da5065ae5a4a282e, type: 3}
@@ -15475,7 +15457,8 @@ PrefabInstance:
         type: 3}
       propertyPath: image
       value: 
-      objectReference: {fileID: 1002115838}
+      objectReference: {fileID: 5281922522351285405, guid: cd03e6aa582b78846948d9e66c1310f6,
+        type: 3}
     - target: {fileID: 5517359399464319692, guid: f2443f51d13aa144ea5d7bd34d09101a,
         type: 3}
       propertyPath: sirubeMusi

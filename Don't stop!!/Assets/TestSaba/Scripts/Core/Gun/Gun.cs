@@ -18,6 +18,18 @@ namespace DontStop.Weapons
         [Tooltip("銃のｱﾆﾒｰｼｮﾝ処理")]
         private GunAnimator gunAnimator = new GunAnimator();
 
+        [SerializeField]
+        [Tooltip("銃のUI")]
+        private UI.GunUI gunUI = new UI.GunUI();
+
+        [SerializeField]
+        private Transform ejectorPoint;
+
+        [SerializeField]
+        [Required]
+        [Tooltip("弾")]
+        private GameObject bullet;
+
         private Controller1.GunActions gunController;
 
         private void Awake()
@@ -30,7 +42,8 @@ namespace DontStop.Weapons
             gunController = new Controller1().Gun;
 
             // ｺｰﾙﾊﾞｯｸの登録
-            gunController.Aim.started += _ => Aim();
+            gunController.Shoot.started += _ => Shoot();
+            gunController.Reload.started += _ => Reload();
         }
 
         private void OnEnable()
@@ -45,17 +58,28 @@ namespace DontStop.Weapons
 
         void Start()
         {
-
+            gunUI.Init();
+            gunAnimator.Init(GetComponent<Animator>());
         }
 
         void Update()
         {
-
+            gunUI.Update();
         }
 
-        private void Aim()
+        #region INPUTREGISTER
+
+        private void Shoot()
         {
-
+            Instantiate(bullet, ejectorPoint.position, ejectorPoint.rotation);
+            gunAnimator.Fire();
         }
+
+        private void Reload()
+        {
+            gunAnimator.Reload();
+        }
+
+        #endregion
     }
 }

@@ -47,18 +47,6 @@ MonoBehaviour:
     targetTransform: {fileID: 0}
     leanAngle: 5
     leanSpeed: 0.5
---- !u!114 &6409027284629485883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6066376779370090445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e9528582bad93d40b0d34924fd61e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   ejectorPoint: {fileID: 2067694530725022286}
   bullet: {fileID: 7564132042648265004, guid: 434f0df1b93752248921912c48e5b67a, type: 3}
 --- !u!1 &6409027284284641677
@@ -234,7 +222,7 @@ MonoBehaviour:
   slidingHeight: 0.9
   crouchingSpeed: 3
   runMode: 1
-  allowedCollider: 0.1
+  allowedCollider: 0.05
   airControlPercent: 0.4
   walkingForce: 5
   crouchForce: 2
@@ -257,8 +245,8 @@ MonoBehaviour:
     invertHorizontalAxis: 0
   FPSCamera: {fileID: 6409027284284641679}
   wallRunEnableSpeed: 8
-  wallRunAngle: 45
-  wallJumpMultiplier: 2
+  wallRunAngle: {x: 45, y: 45}
+  wallJumpMultiplier: 1.2
   cameraAnimator: {fileID: 6409027284841320667}
   climbingSpeed: 3.5
   slidingControlPercent: 1
@@ -268,7 +256,7 @@ MonoBehaviour:
   slidingAngle: 45
   frictionAngle: 20
   thrustMultiplier: 1.35
-  slidingRecastTime: 1
+  slidingRecastTime: 0.7
 --- !u!136 &6409027284341368444
 CapsuleCollider:
   m_ObjectHideFlags: 0

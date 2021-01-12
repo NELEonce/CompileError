@@ -51,6 +51,14 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Aim"",
+                    ""type"": ""Button"",
+                    ""id"": ""c77f1cd0-938f-4717-a57d-e89993420884"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""64fcfa2d-364c-4b3b-b8e2-1e565dabdb75"",
@@ -284,6 +292,28 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""action"": ""Chronostasis"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee8b2df0-a18a-4177-80cf-b2700a894ed2"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6bf130f-f0e3-4c10-b7a2-418d36b21e92"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -303,14 +333,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""3fd98b66-65f1-40e3-a7a7-83ff16f44774"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Aim"",
-                    ""type"": ""Button"",
-                    ""id"": ""45149592-9030-49da-b7c2-1f52b87e5b2f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -369,28 +391,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Reload"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""692bff98-26ac-4c4a-ae76-00893563d38f"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""05d44ea8-9f5d-46b0-b798-93b8122687f0"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -476,6 +476,7 @@ public class @Controller1 : IInputActionCollection, IDisposable
         m_TestPlayer_Direction = m_TestPlayer.FindAction("Direction", throwIfNotFound: true);
         m_TestPlayer_Crouch = m_TestPlayer.FindAction("Crouch", throwIfNotFound: true);
         m_TestPlayer_WpChange = m_TestPlayer.FindAction("WpChange", throwIfNotFound: true);
+        m_TestPlayer_Aim = m_TestPlayer.FindAction("Aim", throwIfNotFound: true);
         m_TestPlayer_Jump = m_TestPlayer.FindAction("Jump", throwIfNotFound: true);
         m_TestPlayer_Chronostasis = m_TestPlayer.FindAction("Chronostasis", throwIfNotFound: true);
         m_TestPlayer_Run = m_TestPlayer.FindAction("Run", throwIfNotFound: true);
@@ -483,7 +484,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
         m_Gun = asset.FindActionMap("Gun", throwIfNotFound: true);
         m_Gun_Shoot = m_Gun.FindAction("Shoot", throwIfNotFound: true);
         m_Gun_Reload = m_Gun.FindAction("Reload", throwIfNotFound: true);
-        m_Gun_Aim = m_Gun.FindAction("Aim", throwIfNotFound: true);
         // Option
         m_Option = asset.FindActionMap("Option", throwIfNotFound: true);
         m_Option_Open = m_Option.FindAction("Open", throwIfNotFound: true);
@@ -540,6 +540,7 @@ public class @Controller1 : IInputActionCollection, IDisposable
     private readonly InputAction m_TestPlayer_Direction;
     private readonly InputAction m_TestPlayer_Crouch;
     private readonly InputAction m_TestPlayer_WpChange;
+    private readonly InputAction m_TestPlayer_Aim;
     private readonly InputAction m_TestPlayer_Jump;
     private readonly InputAction m_TestPlayer_Chronostasis;
     private readonly InputAction m_TestPlayer_Run;
@@ -551,6 +552,7 @@ public class @Controller1 : IInputActionCollection, IDisposable
         public InputAction @Direction => m_Wrapper.m_TestPlayer_Direction;
         public InputAction @Crouch => m_Wrapper.m_TestPlayer_Crouch;
         public InputAction @WpChange => m_Wrapper.m_TestPlayer_WpChange;
+        public InputAction @Aim => m_Wrapper.m_TestPlayer_Aim;
         public InputAction @Jump => m_Wrapper.m_TestPlayer_Jump;
         public InputAction @Chronostasis => m_Wrapper.m_TestPlayer_Chronostasis;
         public InputAction @Run => m_Wrapper.m_TestPlayer_Run;
@@ -575,6 +577,9 @@ public class @Controller1 : IInputActionCollection, IDisposable
                 @WpChange.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWpChange;
                 @WpChange.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWpChange;
                 @WpChange.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnWpChange;
+                @Aim.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnAim;
                 @Jump.started -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_TestPlayerActionsCallbackInterface.OnJump;
@@ -600,6 +605,9 @@ public class @Controller1 : IInputActionCollection, IDisposable
                 @WpChange.started += instance.OnWpChange;
                 @WpChange.performed += instance.OnWpChange;
                 @WpChange.canceled += instance.OnWpChange;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -619,14 +627,12 @@ public class @Controller1 : IInputActionCollection, IDisposable
     private IGunActions m_GunActionsCallbackInterface;
     private readonly InputAction m_Gun_Shoot;
     private readonly InputAction m_Gun_Reload;
-    private readonly InputAction m_Gun_Aim;
     public struct GunActions
     {
         private @Controller1 m_Wrapper;
         public GunActions(@Controller1 wrapper) { m_Wrapper = wrapper; }
         public InputAction @Shoot => m_Wrapper.m_Gun_Shoot;
         public InputAction @Reload => m_Wrapper.m_Gun_Reload;
-        public InputAction @Aim => m_Wrapper.m_Gun_Aim;
         public InputActionMap Get() { return m_Wrapper.m_Gun; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -642,9 +648,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
                 @Reload.started -= m_Wrapper.m_GunActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_GunActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_GunActionsCallbackInterface.OnReload;
-                @Aim.started -= m_Wrapper.m_GunActionsCallbackInterface.OnAim;
-                @Aim.performed -= m_Wrapper.m_GunActionsCallbackInterface.OnAim;
-                @Aim.canceled -= m_Wrapper.m_GunActionsCallbackInterface.OnAim;
             }
             m_Wrapper.m_GunActionsCallbackInterface = instance;
             if (instance != null)
@@ -655,9 +658,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
-                @Aim.started += instance.OnAim;
-                @Aim.performed += instance.OnAim;
-                @Aim.canceled += instance.OnAim;
             }
         }
     }
@@ -728,6 +728,7 @@ public class @Controller1 : IInputActionCollection, IDisposable
         void OnDirection(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnWpChange(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnChronostasis(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
@@ -736,7 +737,6 @@ public class @Controller1 : IInputActionCollection, IDisposable
     {
         void OnShoot(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
-        void OnAim(InputAction.CallbackContext context);
     }
     public interface IOptionActions
     {

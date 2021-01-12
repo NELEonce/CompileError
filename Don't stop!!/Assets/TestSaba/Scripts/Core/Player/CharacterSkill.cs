@@ -32,13 +32,16 @@ namespace DontStop.Player.Skill
         /// </summary>
         public void UpdateChronostasis()
         {
-            if (chronostasis && !Mathf.Approximately(Time.timeScale, chronostasisScale))
+            if (Time.timeScale != 0)
             {
-                Time.timeScale = Mathf.Lerp(Time.timeScale, chronostasisScale, Time.deltaTime * chronostasisScaleSpeed);
-            }
-            else if (!Mathf.Approximately(Time.timeScale, 1))
-            {
-                Time.timeScale = Mathf.Lerp(Time.timeScale, 1, Time.deltaTime * chronostasisScaleSpeed);
+                if (chronostasis && !Mathf.Approximately(Time.timeScale, chronostasisScale))
+                {
+                    Time.timeScale = Mathf.Lerp(Time.timeScale, chronostasisScale, Time.deltaTime * chronostasisScaleSpeed);
+                }
+                else if (!Mathf.Approximately(Time.timeScale, 1))
+                {
+                    Time.timeScale = Mathf.Lerp(Time.timeScale, 1, Time.deltaTime * chronostasisScaleSpeed);
+                }
             }
         }
     }

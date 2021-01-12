@@ -19,18 +19,18 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private　GameObject CanvasObject;            //オプション画面
 
-    [SerializeField]
-    private TextMeshProUGUI timeText;           //ゲーム中にタイムを表示する
+    //[SerializeField]
+    //private TextMeshProUGUI timeText;           //ゲーム中にタイムを表示する
+    private GameObject timeText;                
 
-    [SerializeField]
+    //[SerializeField]
     private　GameObject gameCanvas;             //ゲーム中UI
 
     [SerializeField]
     private　GameObject ResultCanvas;           //リザルト画面
-
-    [SerializeField]
-    private Image image;                        //ﾌｪｰﾄﾞ用の画像
-
+    
+    //[SerializeField]
+    private GameObject image;                   //ﾌｪｰﾄﾞ用の画像
 
     public bool playEnd { get; set; }   // ﾒｲﾝｹﾞｰﾑが終了しているかのフラグ
     private float playEndTime;          // ﾒｲﾝｹﾞｰﾑ後の経過時間(秒)
@@ -45,8 +45,21 @@ public class GameManager : MonoBehaviour
 
         controller = new Controller1();
 
+        // canvas内の使用する物の取得
+        gameCanvas = GameObject.Find("GameCanvas");
+        timeText = gameCanvas.transform.Find("TimeText (TMP)").gameObject;
+
         //Callbackの登録
         controller.Option.Open.started += _ => OpenOpstion();
+
+        //ﾁｭｰﾄﾘｱﾙｼｰﾝなら
+        if (SceneManager.GetActiveScene().name == "Practice")
+        {
+            timeText.SetActive(false);
+            image = Instantiate(Resources.Load<GameObject>("UI/Image"));
+            image.transform.parent = gameCanvas.transform;
+            image.transform.localPosition = Vector3.zero;
+        }
     }
 
     private void OnEnable()
@@ -99,7 +112,7 @@ public class GameManager : MonoBehaviour
             playTime += Time.deltaTime;
             int minute = (int)playTime / 60;
             int second = (int)playTime % 60;
-            timeText.text = string.Format("{0:d2}:{1:d2}:{2:d2}", minute, second, (int)(playTime * 100 % 100));
+            if (timeText.activeSelf)timeText.GetComponent<TextMeshProUGUI>().text = string.Format("{0:d2}:{1:d2}:{2:d2}", minute, second, (int)(playTime * 100 % 100));
         }
         else if(playEnd)
         {
@@ -115,8 +128,8 @@ public class GameManager : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "Practice")
             {
                 //ﾌｪｰﾄﾞｱｳﾄ
-                image.color += Color.black * 0.006f;
-                if (image.color.a >= 1)
+                image.GetComponent<Image>().color += Color.black * 0.006f;
+                if (image.GetComponent<Image>().color.a >= 1)
                 //結果は出さずにｾﾚｸﾄ画面に戻る
                 GameEventMessage.SendEvent("SelectTrantion");
                 return;

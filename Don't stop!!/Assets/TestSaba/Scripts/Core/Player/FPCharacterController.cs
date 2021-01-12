@@ -86,7 +86,7 @@ namespace DontStop.Player
         [Range(0, 1)]
         [Tooltip("当たり判定の許容値")]
         private float allowedCollider = 0.5f;
-        
+
         #endregion
 
         #region MOVEMENT
@@ -159,9 +159,9 @@ namespace DontStop.Player
         private float wallRunEnableSpeed = 8f;
 
         [SerializeField]
-        [Range(0, 90)]
+        [MinMaxRange(0, 90)]
         [Tooltip("壁を走るときに向ける角度")]
-        private float  wallRunAngle = 30f;
+        private Vector2  wallRunAngle = new Vector2(45, 45);
 
         [SerializeField]
         [MinMaxRange(0, Mathf.Infinity)]
@@ -650,6 +650,7 @@ namespace DontStop.Player
         /// </summary>
         private void OnCollisionStay(Collision collision)
         {
+            bool wallRunPossible = false;   // 壁にくっつけるか
             previouslyGrounded = climbing ? previouslyGrounded : grounded;
             slopedSurface = Mathf.Abs(groundRelativeAngle) > slopeLimit;
             float offset = (1 - capsule.radius) + (slopedSurface ? 0.05f : stepOffset);
@@ -660,6 +661,9 @@ namespace DontStop.Player
                 contactPoint = collision.contacts[i].point;
                 groundContactNormal = collision.contacts[i].normal;
                 groundRelativeAngle = Vector3.Angle(groundContactNormal, Vector3.up);
+                wallRunPossible = Mathf.Abs(Vector3.Angle(groundContactNormal, transform.forward) - 90) < wallRunAngle.x 
+                    && new Quaternion(Mathf.Abs(FPSCamera.transform.localRotation.x),0,0,1f).eulerAngles.x < wallRunAngle.y;  // (横, 縦)
+
                 if (Mathf.Abs(groundRelativeAngle) < slopeLimit)
                 {
                     grounded = true;
@@ -667,7 +671,6 @@ namespace DontStop.Player
                 }
                 else if (wallRun)
                 {
-
                     grounded = false;
                     break;
                 }
@@ -677,9 +680,9 @@ namespace DontStop.Player
                     groundRelativeAngle = Vector3.Angle(groundContactNormal, Vector3.up);
                 }
             }
-
+            
             if (!grounded && jumping && running && Math.Math.EraseYAxis(rigidbody.velocity).magnitude > wallRunEnableSpeed
-                && Mathf.Abs(Vector3.Angle(groundContactNormal, transform.forward) - 90) < wallRunAngle && collision.transform.tag == "WallRun")
+                && wallRunPossible && collision.transform.tag == "WallRun")
             {
                 wallRun = true;
             }
@@ -792,7 +795,7 @@ namespace DontStop.Player
 
                 isCrouched = true;
                 if (running && Vector3.Angle(new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z), transform.forward) < slidingAngle 
-                    && !isSliding && slidingSinceTime >= slidingRecastTime)
+                   && !isSliding && slidingSinceTime >= slidingRecastTime)
                 {
                     var thrustPower = thrustMultiplier - (Vector3.Angle(groundContactNormal, Math.Math.EraseYAxis(rigidbody.velocity.normalized)) - 90) / 90;
                     slidingThrust = Vector3.ProjectOnPlane(rigidbody.velocity, groundContactNormal) * thrustPower;
@@ -922,15 +925,14 @@ namespace DontStop.Player
         private Vector3 vec3;
         private void OnGUI()
         {
-            /*
             var style = new GUIStyle();
             style.fontSize = 50;
             style.normal.textColor = Color.red;
-            GUI.Label(new Rect(0, 0, 100, 50), "速度の角度:" + (90-Vector3.Angle(rigidbody.velocity, Vector3.up)), style);
-            GUI.Label(new Rect(0, 50, 100, 50), "接触面の角度:" + (Vector3.Angle(groundContactNormal, Math.Math.EraseYAxis(rigidbody.velocity.normalized)) - 90), style);
-
+            GUI.Label(new Rect(0, 0, 100, 50), "くっついたときの角度:" + Mathf.Abs(Vector3.Angle(groundContactNormal, transform.forward) - 90), style);
+            GUI.Label(new Rect(0, 50, 100, 50), "ｶﾒﾗ角度:" + (new Quaternion(Mathf.Abs(FPSCamera.transform.localRotation.x), 0, 0, 1f).eulerAngles.x < wallRunAngle.y), style);
+            GUI.Label(new Rect(0, 100, 100, 50), "壁に対するﾌﾟﾚｲﾔｰの角度:" + Vector3.Angle(FPSCamera.transform.localEulerAngles, Vector3.up), style);
+            /*
             // ﾌﾟﾚｲﾔｰの向きに対する壁の角度
-            GUI.Label(new Rect(0, 100, 100, 50), "壁に対するﾌﾟﾚｲﾔｰの角度:" + Mathf.Abs(Vector3.Angle(groundContactNormal, transform.forward) - 90), style);
 
             GUI.Label(new Rect(0, 150, 100, 50), "左右判定:" + (Vector3.Cross(transform.forward, contactPoint - transform.position)), style);
             GUI.Label(new Rect(0, 200, 100, 50), "ﾏｳｽの入力:" + GetViewInput(), style);

@@ -38,6 +38,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "c77f1cd0-938f-4717-a57d-e89993420884",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "64fcfa2d-364c-4b3b-b8e2-1e565dabdb75",
@@ -271,6 +279,28 @@
                     "action": "Chronostasis",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee8b2df0-a18a-4177-80cf-b2700a894ed2",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6bf130f-f0e3-4c10-b7a2-418d36b21e92",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -290,14 +320,6 @@
                     "name": "Reload",
                     "type": "Button",
                     "id": "3fd98b66-65f1-40e3-a7a7-83ff16f44774",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Aim",
-                    "type": "Button",
-                    "id": "45149592-9030-49da-b7c2-1f52b87e5b2f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -356,28 +378,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Reload",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "692bff98-26ac-4c4a-ae76-00893563d38f",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "05d44ea8-9f5d-46b0-b798-93b8122687f0",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
