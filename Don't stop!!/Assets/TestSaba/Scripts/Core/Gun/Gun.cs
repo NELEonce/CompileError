@@ -31,12 +31,15 @@ namespace DontStop.Weapons
         private GameObject bullet;
 
         private Controller1.GunActions gunController;
+        private float rateTime;
+        private int remainingRounds;
+        private float reloadTime;
 
         private void Awake()
         {
             if (!gunData)
             {
-                throw new Exception("GunDataが割り当てられてないっす");
+                throw new Exception("GunDataが割り当てられてないよ");
             }
 
             gunController = new Controller1().Gun;
@@ -60,24 +63,42 @@ namespace DontStop.Weapons
         {
             gunUI.Init();
             gunAnimator.Init(GetComponent<Animator>());
+
+            rateTime = gunData.GetShootingRate();
+            reloadTime = gunData.GetReloadCompleteTime();
+            remainingRounds = gunData.GetBulletsPerMagazine();
         }
 
         void Update()
         {
             gunUI.Update();
+            var i = GetComponent<Collider>();
+            
+            if (rateTime <= gunData.GetShootingRate()) rateTime += Time.deltaTime;
+            if (reloadTime <= gunData.GetReloadCompleteTime()) reloadTime += Time.deltaTime;
         }
 
         #region INPUTREGISTER
 
         private void Shoot()
         {
-            Instantiate(bullet, ejectorPoint.position, ejectorPoint.rotation);
-            gunAnimator.Fire();
+            if (remainingRounds > 0 && rateTime >= gunData.GetShootingRate() && reloadTime >= gunData.GetReloadCompleteTime())
+            {
+                Instantiate(bullet, ejectorPoint.position, ejectorPoint.rotation);
+                gunAnimator.Fire();
+                remainingRounds -= 1;
+                rateTime = 0;
+            }
         }
 
         private void Reload()
         {
-            gunAnimator.Reload();
+            if (remainingRounds < gunData.GetBulletsPerMagazine())
+            {
+                gunAnimator.Reload();
+                remainingRounds = gunData.GetBulletsPerMagazine();
+                reloadTime = 0;
+            }
         }
 
         #endregion

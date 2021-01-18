@@ -18,18 +18,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private　GameObject CanvasObject;            //オプション画面
+    
+    private GameObject timeText;                //ゲーム中にタイムを表示する
 
-    //[SerializeField]
-    //private TextMeshProUGUI timeText;           //ゲーム中にタイムを表示する
-    private GameObject timeText;                
-
-    //[SerializeField]
     private　GameObject gameCanvas;             //ゲーム中UI
 
     [SerializeField]
     private　GameObject ResultCanvas;           //リザルト画面
     
-    //[SerializeField]
     private GameObject image;                   //ﾌｪｰﾄﾞ用の画像
 
     public bool playEnd { get; set; }   // ﾒｲﾝｹﾞｰﾑが終了しているかのフラグ

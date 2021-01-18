@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993b3f892e909a9458e6df59092f1088, type: 3}
   m_Name: PythonDate
   m_EditorClassIdentifier: 
-  MagazineInfinite: 1
-  BulletsPerMagazine: 6
-  MaxBullets: 100
-  ShootingRate: 0.2
+  magazineInfinite: 1
+  bulletsPerMagazine: 6
+  maxBullets: 100
+  shootingRate: 0.4
   zoomPower: 1
-  reloadTime: 1
+  reloadCompleteTime: 1.8

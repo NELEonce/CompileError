@@ -11,11 +11,12 @@ namespace DontStop.Weapons
         // 弾薬やリロードのタイミング、サウンド、エフェクト、レート、照準、ズームアップ
         
         /// <summary>
-        /// ﾏｶﾞｼﾞﾝが無限か有限か
+        /// マガジンが無限かどうか
         /// </summary>
         [SerializeField]
-        [Tooltip("ﾏｶﾞｼﾞﾝが無限か有限か")]
-        public bool MagazineInfinite = true;
+        [Tooltip("マガジンが無限かどうか")]
+        private bool magazineInfinite = true;
+        public bool GetMagazineInfinite() { return magazineInfinite; }
 
         /// <summary>
         /// ﾏｶﾞｼﾞﾝごとの弾数
@@ -23,7 +24,8 @@ namespace DontStop.Weapons
         [SerializeField]
         [MinMaxRange(0, Mathf.Infinity)]
         [Tooltip("ﾏｶﾞｼﾞﾝごとの弾数")]
-        private int BulletsPerMagazine = 6;
+        private int bulletsPerMagazine = 6;
+        public int GetBulletsPerMagazine() { return bulletsPerMagazine; }
 
         /// <summary>
         /// 所持弾数
@@ -31,7 +33,8 @@ namespace DontStop.Weapons
         [SerializeField]
         [MinMaxRange(0, Mathf.Infinity)]
         [Tooltip("所持弾数")]
-        private int MaxBullets = 100;
+        private int maxBullets = 100;
+        public int GetMaxBullets() { return maxBullets; }
 
         /// <summary>
         /// 射撃ﾚｰﾄ
@@ -39,7 +42,8 @@ namespace DontStop.Weapons
         [SerializeField]
         [MinMaxRange(0, Mathf.Infinity)]
         [Tooltip("射撃ﾚｰﾄ")]
-        private float ShootingRate = 0.2f;
+        private float shootingRate = 0.2f;
+        public float GetShootingRate() { return shootingRate; }
 
         /// <summary>
         /// ｽﾞｰﾑ倍率
@@ -48,6 +52,7 @@ namespace DontStop.Weapons
         [Range(0, 10)]
         [Tooltip("ｽﾞｰﾑ倍率")]
         private float zoomPower = 1;
+        public float GetZoomPower() { return zoomPower; }
 
         /// <summary>
         /// ﾘﾛｰﾄﾞが始まって撃てるようになるまでの時間
@@ -55,6 +60,7 @@ namespace DontStop.Weapons
         [SerializeField]
         [MinMaxRange(0, Mathf.Infinity)]
         [Tooltip("ﾘﾛｰﾄﾞが始まって撃てるようになるまでの時間")]
-        private float reloadTime = 1;
+        private float reloadCompleteTime = 1;
+        public float GetReloadCompleteTime() { return reloadCompleteTime; }
     }
 }

@@ -149,6 +149,14 @@ namespace DontStop.Player
 
         #endregion
 
+        #region EFFECT
+
+        [SerializeField]
+        [Tooltip("このｷｬﾗｸﾀｰが使用できるｽｷﾙ")]
+        private VFX.CharacterVFX effect = new VFX.CharacterVFX();
+
+        #endregion
+
         #region PARKOUR
 
         public bool wallRun { get; private set; }
@@ -394,6 +402,7 @@ namespace DontStop.Player
             rigidbody = GetComponent<Rigidbody>();
             rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             cameraController.Init(transform, FPSCamera.transform);
+            effect.EffectInit(FPSCamera.transform);
             FPSCamera.transform.localPosition = new Vector3(0, characterHeight * 0.4f, 0);
 
             // -----ｷｬﾗｸﾀｰｾｯﾃｨﾝｸﾞ
@@ -710,7 +719,7 @@ namespace DontStop.Player
 
         private void Update()
         {
-            
+
             //Debug.Log(wallRun);
             //if (!grounded)
             //{
@@ -719,7 +728,8 @@ namespace DontStop.Player
             //        UnityEditor.EditorApplication.isPaused = true;
             //    }
             //}
-
+            // ｴﾌｪｸﾄの更新
+            effect.SpeedLine(rigidbody.velocity.magnitude);
             // ｶﾒﾗの回転を更新
             cameraController.UpdateRotation(isAiming, GetViewInput());
 
